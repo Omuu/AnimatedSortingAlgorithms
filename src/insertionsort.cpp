@@ -12,7 +12,7 @@ void Sort::insertionSort(std::vector<float>& heightsVec, bool & interrupt, sf::R
 
 	insertionSort(heightsVec.begin(), heightsVec.end(), interrupt, target, handle);
 	(*handle)(interrupt);
-	handle->flourish(sf::Color::Blue, 1.5, interrupt);
+	handle->flourish(1.5, interrupt);
 }
 
 void Sort::insertionSort(std::vector<float>::iterator &first, std::vector<float>::iterator &last, bool & interrupt, sf::RenderWindow& target, Handle* handle)
@@ -32,15 +32,15 @@ void Sort::insertionSort(std::vector<float>::iterator &first, std::vector<float>
 
 		while (fs != next) {
 
-			handle->colorBar(fs, sf::Color::Red);
-			handle->colorBar(next, sf::Color::Red);
+			handle->makeBarActive(fs);
+			handle->makeBarActive(next);
 
 			std::iter_swap(fs, next);
 
 			(*handle)(interrupt);
 
-			handle->colorBar(fs++, sf::Color::Green);
-			handle->colorBar(next++, sf::Color::Green);
+			handle->makeBarInactive(fs++);
+			handle->makeBarInactive(next++);
 
 			//while (clock.getElapsedTime() < sf::microseconds(delay)){}
 			//clock.restart();

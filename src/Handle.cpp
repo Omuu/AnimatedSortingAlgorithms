@@ -1,4 +1,3 @@
-//#include <SFML\sfml.h>
 #include <SFML\Graphics.hpp>
 
 #include <vector>
@@ -21,16 +20,16 @@ using Sort::Handle;
 using Sort::Bar;
 
 Handle::Handle(sf::RenderWindow& window, std::vector<Bar>* bars, std::vector<float>* heightsVec, bool& close) :
-	m_window(window),
-	m_barVec(bars),
-	m_heightsVec(heightsVec),
-	m_busy(false),
-	m_interrupt(false),
-	m_close(close),
-	m_numOfBars(bars->size()),
-	m_currAlgo(AlgoName::QUICKSORT),
-	m_windowHeight(window.getSize().y),
-	m_windowWidth(window.getSize().x)
+m_window(window),
+m_barVec(bars),
+m_heightsVec(heightsVec),
+m_busy(false),
+m_interrupt(false),
+m_close(close),
+m_numOfBars(bars->size()),
+m_currAlgo(AlgoName::QUICKSORT),
+m_windowHeight(window.getSize().y),
+m_windowWidth(window.getSize().x)
 {
 	m_maxBarHeight = bars->back().getHeight();
 }
@@ -73,7 +72,7 @@ void Handle::operator()(bool & interrupt)
 						interrupt = (interrupt ? false : true);
 						break;
 
-					/*case sf::Keyboard::F:
+						/*case sf::Keyboard::F:
 						flourish(sf::Color::Blue, 1.5, interrupt);
 						break;*/
 
@@ -220,6 +219,23 @@ void Handle::colorBar(size_t index, sf::Color col)
 	m_barVec->at(index).setColor(col);
 }
 
+void Handle::makeBarInactive(const std::vector<float>::iterator &it)
+{
+	colorBar(it, m_inactiveCol);
+}
+void Handle::makeBarInactive(size_t index)
+{
+	colorBar(index, m_inactiveCol);
+}
+void Handle::makeBarActive(const std::vector<float>::iterator &it)
+{
+	colorBar(it, m_activeCol);
+}
+void Handle::makeBarActive(size_t index)
+{
+	colorBar(index, m_activeCol);
+}
+
 void Handle::flourish(sf::Color col, float timeInSeconds, bool& interrupt)
 {
 	if (interrupt)
@@ -274,7 +290,7 @@ void Handle::flourish(sf::Color col, float timeInSeconds, bool& interrupt)
 
 		for (auto y = m_barVec->begin(); y < m_barVec->end(); ++y)
 			m_window.draw(*y);
-			
+
 
 		for (const auto & y : m_textMap) {
 			m_window.draw(y.second);
@@ -297,9 +313,14 @@ void Handle::flourish(sf::Color col, float timeInSeconds, bool& interrupt)
 	}
 
 	for (auto z = m_barVec->begin(); z < m_barVec->end(); ++z)
-		z->setColor(sf::Color::Green);
+		z->setColor(m_inactiveCol);
 
 	interrupt = false;
+}
+
+void Handle::flourish(float timeInSeconds, bool& interrupt)
+{
+	flourish(m_flourishCol, timeInSeconds, interrupt);
 }
 
 void Sort::shuffleHeights(std::vector<float> & heightVec)
@@ -406,4 +427,30 @@ void Handle::changeNumOfBars(int amount)
 
 	// end the current frame
 	m_window.display();
+}
+
+void Handle::setActiveCol(sf::Color col)
+{
+	m_activeCol = col;
+}
+
+sf::Color Handle::getActiveCol()
+{
+	return m_activeCol;
+}
+void Handle::setInactiveCol(sf::Color col)
+{
+	m_inactiveCol = col;
+}
+sf::Color Handle::getInactiveCol()
+{
+	return m_inactiveCol;
+}
+void Handle::setFlourishCol(sf::Color col)
+{
+	m_flourishCol = col;
+}
+sf::Color Handle::getFlourishCol()
+{
+	return m_flourishCol;
 }

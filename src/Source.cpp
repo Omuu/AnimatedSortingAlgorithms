@@ -1,7 +1,5 @@
 #include <SFML\Graphics.hpp>
 
-#include "config.h"
-
 #include <vector>
 #include <array>
 #include <string>
@@ -20,12 +18,13 @@ const int WINDOW_WIDTH = 1024;
 const int WINDOW_HEIGHT = 768;
 
 // this is the height of the region in which the Bars are drawn
-const int BARS_HEIGHT = 600;	
+const int BARS_HEIGHT = 600;
 
 // activeCol is the colour of a bar when it is being compared to another bar
 // it is inactiveCol otherwise
-const sf::Color inactiveCol = sf::Color::Green;
-const sf::Color activeCol = sf::Color::Red;
+const sf::Color INACTIVE_COL = sf::Color::Green;
+const sf::Color ACTIVE_COL = sf::Color::Red;
+const sf::Color FLOURISH_COL = sf::Color::Blue;
 
 int main()
 {
@@ -33,7 +32,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Sorting Algorithms");
 
 	//window.setFramerateLimit(80);
-	
+
 	sf::Font arialFont;
 
 	if (!arialFont.loadFromFile("arial.ttf"))
@@ -57,7 +56,7 @@ int main()
 	{
 		float barHeight = float(BARS_HEIGHT) * (i + 1) / numberOfBars;
 		heights.push_back(barHeight);
-		bars.push_back(Sort::Bar{ barWidth, barHeight, (barWidth + separation )*i, float(WINDOW_HEIGHT) - barHeight, sf::Color::Green });
+		bars.push_back(Sort::Bar{ barWidth, barHeight, (barWidth + separation)*i, float(WINDOW_HEIGHT) - barHeight, INACTIVE_COL });
 	}
 
 	// exit when true
@@ -66,10 +65,13 @@ int main()
 	// 'handle' deals with keyboard input and draws to the window
 	// calling handle(true) will abort any currently-running algorithm
 	Sort::Handle handle(window, &bars, &heights, close);
+	handle.setActiveCol(ACTIVE_COL);
+	handle.setInactiveCol(INACTIVE_COL);
+	handle.setFlourishCol(FLOURISH_COL);
 
 	// 'handle' holds all of the text to be written to the window
 	// it is populated here
-	
+
 	handle.setFont(&arialFont);
 
 	sf::Text algorithmName("1. Quicksort", arialFont);

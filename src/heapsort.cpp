@@ -17,15 +17,15 @@ void Sort::heapSort(std::vector<float>& heightsVec, bool & interrupt, sf::Render
 		if (interrupt)
 			break;
 
-		handle->colorBar(end, sf::Color::Red);
+		handle->makeBarActive(end);
 		std::swap(heightsVec[0], heightsVec[end]);
 		siftDown(heightsVec, 0, end, interrupt, target, handle);
-		handle->colorBar(end, sf::Color::Green);
+		handle->makeBarInactive(end);
 		--end;
 	}
-	
+
 	(*handle)(interrupt);
-	handle->flourish(sf::Color::Blue, 1.5, interrupt);
+	handle->flourish(1.5, interrupt);
 }
 
 void Sort::siftDown(std::vector<float>& heap, int i, int max, bool & interrupt, sf::RenderWindow& target, Handle* handle) {
@@ -47,15 +47,15 @@ void Sort::siftDown(std::vector<float>& heap, int i, int max, bool & interrupt, 
 			i_big = c2;
 		if (i_big == i) return;
 
-		handle->colorBar(i, sf::Color::Red);
-		handle->colorBar(i_big, sf::Color::Red);
+		handle->makeBarActive(i_big);
+		handle->makeBarActive(i);
 
 		std::swap(heap[i], heap[i_big]);
 
 		(*handle)(interrupt);
 
-		handle->colorBar(i, sf::Color::Green);
-		handle->colorBar(i_big, sf::Color::Green);
+		handle->makeBarInactive(i_big);
+		handle->makeBarInactive(i);
 
 		//while (clock.getElapsedTime() < sf::microseconds(delay)){}
 		//clock.restart();
@@ -70,11 +70,11 @@ void Sort::makeHeap(std::vector<float>& arr, bool & interrupt, sf::RenderWindow&
 		if (interrupt)
 			break;
 
-		handle->colorBar(i, sf::Color::Blue);
+		handle->colorBar(i, sf::Color::Yellow);
 
 		siftDown(arr, i, arr.size(), interrupt, target, handle);
 
-		handle->colorBar(i, sf::Color::Green);
+		handle->makeBarInactive(i);
 
 		--i;
 	}

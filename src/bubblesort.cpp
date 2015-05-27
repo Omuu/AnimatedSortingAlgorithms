@@ -10,7 +10,7 @@ void Sort::bubbleSort(std::vector<float>& heightsVec, bool & interrupt, sf::Rend
 
 	bubbleSort(heightsVec.begin(), heightsVec.end(), interrupt, target, handle);
 	(*handle)(interrupt);
-	handle->flourish(sf::Color::Blue, 1.5, interrupt);
+	handle->flourish(1.5, interrupt);
 }
 
 void Sort::bubbleSort(std::vector<float>::iterator &first, std::vector<float>::iterator &last, bool & interrupt, sf::RenderWindow& target, Handle* handle)
@@ -34,13 +34,13 @@ void Sort::bubbleSort(std::vector<float>::iterator &first, std::vector<float>::i
 				std::iter_swap(it, it + 1);
 
 				if (count == 3) {
-					handle->colorBar(it, sf::Color::Red);
-					handle->colorBar(it + 1, sf::Color::Red);
+					handle->makeBarActive(it);
+					handle->makeBarActive(it + 1);
 
 					(*handle)(interrupt);
 
-					handle->colorBar(it, sf::Color::Green);
-					handle->colorBar(it + 1, sf::Color::Green);
+					handle->makeBarInactive(it);
+					handle->makeBarInactive(it + 1);
 
 					count = 0;
 				}

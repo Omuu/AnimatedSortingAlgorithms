@@ -1,6 +1,5 @@
 #include "mergesort.hpp"
 
-//#include <SFML\sfml.h>
 #include <SFML\Graphics.hpp>
 
 #include "Handle.hpp"
@@ -13,7 +12,7 @@ void Sort::mergeSort(std::vector<float>& heightsVec, bool & interrupt, sf::Rende
 
 	mergeSort(heightsVec.begin(), heightsVec.end(), interrupt, target, handle);
 	(*handle)(interrupt);
-	handle->flourish(sf::Color::Blue, 1.5, interrupt);
+	handle->flourish(1.5, interrupt);
 }
 
 void Sort::mergeSort(std::vector<float>::iterator &first, std::vector<float>::iterator &last, bool& interrupt, sf::RenderWindow& target, Sort::Handle* handle)
@@ -46,16 +45,16 @@ void Sort::merge(std::vector<float>::iterator &first, std::vector<float>::iterat
 	{
 		while ((it1 < middle) && (it2 < last))
 		{
-			handle->colorBar(it1, sf::Color::Red);
-			handle->colorBar(it2, sf::Color::Red);
+			handle->makeBarActive(it1);
+			handle->makeBarActive(it2);
 
 			(*handle)(interrupt);
 
 			while (clock.getElapsedTime() < delay){}
 			clock.restart();
 
-			handle->colorBar(it1, sf::Color::Green);
-			handle->colorBar(it2, sf::Color::Green);
+			handle->makeBarInactive(it1);
+			handle->makeBarInactive(it2);
 
 			*it1 < *it2 ?
 				(sortedHeights[index++] = *(it1++)) :
@@ -64,12 +63,10 @@ void Sort::merge(std::vector<float>::iterator &first, std::vector<float>::iterat
 
 		while (it1 < middle)
 		{
-			//sortedHeights.push_back(*(it1++));
 			sortedHeights[index++] = *(it1++);
 		}
 		while (it2 < last)
 		{
-			//sortedHeights.push_back(*(it2++));
 			sortedHeights[index++] = *(it2++);
 		}
 

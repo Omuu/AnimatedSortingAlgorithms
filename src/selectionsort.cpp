@@ -12,7 +12,7 @@ void Sort::selectionSort(std::vector<float>& heightsVec, bool & interrupt, sf::R
 
 	selectionSort(heightsVec.begin(), heightsVec.end(), interrupt, target, handle);
 	(*handle)(interrupt);
-	handle->flourish(sf::Color::Blue, 1.5, interrupt);
+	handle->flourish(1.5, interrupt);
 }
 
 void Sort::selectionSort(std::vector<float>::iterator &first, std::vector<float>::iterator &last, bool & interrupt, sf::RenderWindow& target, Handle* handle)
@@ -34,8 +34,8 @@ void Sort::selectionSort(std::vector<float>::iterator &first, std::vector<float>
 			++current;
 		}
 
-		handle->colorBar(it, sf::Color::Red);
-		handle->colorBar(smallest, sf::Color::Red);
+		handle->makeBarActive(it);
+		handle->makeBarActive(smallest);
 
 		std::iter_swap(it, smallest);
 
@@ -44,7 +44,7 @@ void Sort::selectionSort(std::vector<float>::iterator &first, std::vector<float>
 		/*while (clock.getElapsedTime() < sf::milliseconds(delay)){}
 		clock.restart();*/
 
-		handle->colorBar(it, sf::Color::Green);
-		handle->colorBar(smallest, sf::Color::Green);
+		handle->makeBarInactive(it);
+		handle->makeBarInactive(smallest);
 	}
 }

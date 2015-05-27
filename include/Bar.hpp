@@ -7,11 +7,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 namespace sf {
-	//class Color;
-	//class Drawable;
 	class RenderTarget;
 	class RenderStates;
-	//class RectangleShape;
 }
 
 namespace Sort {

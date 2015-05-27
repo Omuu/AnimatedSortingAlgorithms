@@ -8,7 +8,6 @@
 namespace sf {
 	class RenderWindow;
 	class Color;
-	//class Text;
 	class Font;
 }
 
@@ -30,8 +29,19 @@ namespace Sort {
 		// given the index of a bar, this will change its color to col
 		void colorBar(size_t index, sf::Color col);
 
-		// sweeps the bars blue - intended to finish off a sort
+		// changes the colour of the given bar to m_activeCol
+		void makeBarActive(const std::vector<float>::iterator &it);
+		void makeBarActive(size_t index);
+
+		// changes the colour of the given bar to m_inactiveCol
+		void makeBarInactive(const std::vector<float>::iterator &it);
+		void makeBarInactive(size_t index);
+
+		// sweeps the bars with the colour col - intended to finish off a sort
 		void flourish(sf::Color col, float timeInSeconds, bool& interrupt);
+
+		// sweeps the bars with the colour m_flourishCol
+		void flourish(float timeInSeconds, bool& interrupt);
 
 		enum class AlgoName { QUICKSORT, MERGESORT, BUBBLESORT, INSERTIONSORT, SELECTIONSORT, HEAPSORT };
 
@@ -41,10 +51,23 @@ namespace Sort {
 
 		void setFont(sf::Font* font);
 
+		// setters and getters for the colours of the bars when active, when inactive, and for the flourish
+		void setActiveCol(sf::Color col);
+		sf::Color getActiveCol();
+		void setInactiveCol(sf::Color col);
+		sf::Color getInactiveCol();
+		void setFlourishCol(sf::Color col);
+		sf::Color getFlourishCol();
+
 	private:
 		sf::RenderWindow & m_window;
 		std::vector<Sort::Bar>* m_barVec;
 		std::vector<float>* m_heightsVec;
+
+		// the colours of the bars when active, when inactive, and for the flourish
+		sf::Color m_activeCol;
+		sf::Color m_inactiveCol;
+		sf::Color m_flourishCol;
 
 		// holds all of the names of the algorithms that will be drawn, indexed by AlgoName
 		std::map<AlgoName, sf::Text> m_textMap;
